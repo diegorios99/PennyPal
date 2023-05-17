@@ -21,19 +21,6 @@ public class PennyPal extends JFrame {
     // Main Panel
     private JPanel panel;
 
-    // Sub Panels
-    private JPanel row1 = new JPanel();
-    private JPanel row2 = new JPanel();
-    private JPanel row3 = new JPanel();
-    private JPanel row4 = new JPanel();
-
-    // Components for login page
-    private JLabel          loginPage;
-    private JLabel          usernameLabel;
-    private JLabel          passwordLabel;
-    private JTextField      usernameTF;
-    private JTextField      passwordTF;
-    private JButton         loginButton;
 
 
     // Components for main page
@@ -77,7 +64,7 @@ public class PennyPal extends JFrame {
      * Constructor for the PennyPal GUI
      */
     public PennyPal(){
-        buildPanel();
+        loginPanel();
         frame.add(panel);
         frame.setSize(400,400);
         frame.setResizable(false);
@@ -89,40 +76,70 @@ public class PennyPal extends JFrame {
      * BuildPanel is used to put all the components on the panel
      * and connect them with an ActionLister.
      */
-    public void buildPanel(){
+    public void loginPanel(){
         // Adding the components to the panel
         panel = new JPanel();
         panel.setLayout(new FlowLayout());
 
-        // scroll pane
-        JTextArea textArea = new JTextArea(5,20);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        textArea.setEditable(false);
+        // Sub Panels
+        JPanel row1 = new JPanel();
+        JPanel row2 = new JPanel();
+        JPanel row3 = new JPanel();
+        JPanel row4 = new JPanel();
 
-        // sub panels
-        row1 = new JPanel();
+        // Components for login page
+        JLabel loginPage = new JLabel("Login");;
+        JLabel usernameLabel = new JLabel("Username");
+        JLabel passwordLabel = new JLabel("Password");
+        JTextField usernameTF = new JTextField(10);
+        JTextField passwordTF = new JTextField(10);
+        JButton loginButton = new JButton("Login");
 
-        // labels and textFields
-        loginPage = new JLabel("Login");
+        // add LoginListener
+        loginButton.addActionListener(new LoginListener());
 
-        /** #################################
-         * Add components to the rows, then add the rows to the panel
-         */
-
+        // add components to the rows
         row1.add(loginPage);
-
+        row2.add(usernameLabel);
+        row2.add(usernameTF);
+        row3.add(passwordLabel);
+        row3.add(passwordTF);
+        row4.add(loginButton);
 
         // formatting for the rows
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        panel.add(scrollPane);
-        panel.add(Box.createRigidArea(new Dimension(0,4)));
+        panel.add(Box.createRigidArea(new Dimension(0,1)));
 
         // add the rows to the panel
         panel.add(row1);
         panel.add(row2);
         panel.add(row3);
         panel.add(row4);
-    }// end buildPanel
+    }// end loginPanel
+
+    /**
+     * mainPanel method is going to hold the
+     * actual application with it's components
+     */
+    public void mainPanel(){
+        
+    }
+    /**
+     * Inner LoginListner class that is for the login page
+     */
+    private class LoginListener implements ActionListener{
+
+        /**
+         * Invoked when an action occurs.
+         *
+         * @param e the event to be processed
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+
+    }
 
     /**
      * Inner ButtonListner class that implements the ActionListener to get data from the buttons
