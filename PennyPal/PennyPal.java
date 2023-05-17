@@ -18,20 +18,14 @@ public class PennyPal extends JFrame {
     // Frame
     private JFrame frame = new JFrame("PennyPal");
 
-    // Main Panel
+    // Login Panel
     private JPanel panel;
 
+    JButton loginButton;
+    JTextField usernameTF;
+    JTextField passwordTF;
+    JLabel result;
 
-
-    // Components for main page
-    private JLabel          dataVis;
-    private JLabel          reports;
-    private JLabel          expenses;
-
-    private JTextField      addExpenseTF;
-    private JButton         addExpenseBtn;
-    private JButton         viewSpendingBtn;
-    private JButton         changeCategoryBtn;
 
 
     /**
@@ -86,14 +80,16 @@ public class PennyPal extends JFrame {
         JPanel row2 = new JPanel();
         JPanel row3 = new JPanel();
         JPanel row4 = new JPanel();
+        JPanel row5 = new JPanel();
 
         // Components for login page
         JLabel loginPage = new JLabel("Login");;
         JLabel usernameLabel = new JLabel("Username");
         JLabel passwordLabel = new JLabel("Password");
-        JTextField usernameTF = new JTextField(10);
-        JTextField passwordTF = new JTextField(10);
-        JButton loginButton = new JButton("Login");
+        usernameTF = new JTextField(10);
+        passwordTF = new JTextField(10);
+        loginButton = new JButton("Login");
+        result = new JLabel("");
 
         // add LoginListener
         loginButton.addActionListener(new LoginListener());
@@ -105,6 +101,7 @@ public class PennyPal extends JFrame {
         row3.add(passwordLabel);
         row3.add(passwordTF);
         row4.add(loginButton);
+        row5.add(result);
 
         // formatting for the rows
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -115,6 +112,7 @@ public class PennyPal extends JFrame {
         panel.add(row2);
         panel.add(row3);
         panel.add(row4);
+        panel.add(row5);
     }// end loginPanel
 
     /**
@@ -122,7 +120,17 @@ public class PennyPal extends JFrame {
      * actual application with it's components
      */
     public void mainPanel(){
-        
+        // Components for main page
+        JLabel dataVis = new JLabel("Data Visualization");
+        JLabel reports;
+        JLabel expenses;
+
+        JTextField addExpenseTF;
+        JButton addExpenseBtn;
+        JButton viewSpendingBtn;
+        JButton changeCategoryBtn;
+
+        panel.add(dataVis);
     }
     /**
      * Inner LoginListner class that is for the login page
@@ -137,6 +145,24 @@ public class PennyPal extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            // reset the result of the login
+            result.setText("");
+
+            /**
+             * This part can be rewritten to grab username and passwords from
+             * the MySQL server rather than a hardcoded username and password
+             */
+
+            // if the username and password match
+            if(e.getSource() == loginButton){
+                if(usernameTF.getText().equals("Admin") && passwordTF.getText().equals("Pass")){
+                    panel.removeAll();
+                    mainPanel();
+                    panel.updateUI();
+                }else{
+                    result.setText("Invalid Information!");
+                }
+            }
         }
 
     }
