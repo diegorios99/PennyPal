@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.security.Key;
 import java.sql.*;
 
 /**
@@ -18,13 +20,14 @@ public class PennyPal extends JFrame {
     // Frame
     private JFrame frame = new JFrame("PennyPal");
 
-    // Login Panel
+    // Panel
     private JPanel panel;
 
-    JButton loginButton;
-    JTextField usernameTF;
-    JPasswordField passwordF;
-    JLabel result;
+    // Global fields
+    private JButton loginButton;
+    private JTextField usernameTF;
+    private JPasswordField passwordF;
+    private JLabel result;
 
 
 
@@ -60,8 +63,9 @@ public class PennyPal extends JFrame {
     public PennyPal(){
         loginPanel();
         frame.add(panel);
-        frame.setSize(400,400);
+        frame.setSize(1280,720);
         frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }// end PennyPal
@@ -122,15 +126,27 @@ public class PennyPal extends JFrame {
     public void mainPanel(){
         // Components for main page
         JLabel dataVis = new JLabel("Data Visualization");
-        JLabel reports;
-        JLabel expenses;
+        JLabel reports = new JLabel("Reports");
+        JLabel expenses = new JLabel("Expenses");
+
+        ImageIcon pennyPalIcon = new ImageIcon("PennyPal/images/PennyPal.png");
+        Image pennyPalImage = pennyPalIcon.getImage();
+        Image newPennyPalImage = pennyPalImage.getScaledInstance(80,80, Image.SCALE_SMOOTH);
+        pennyPalIcon = new ImageIcon(newPennyPalImage);
+
+        JLabel logo = new JLabel(pennyPalIcon);
 
         JTextField addExpenseTF;
         JButton addExpenseBtn;
         JButton viewSpendingBtn;
         JButton changeCategoryBtn;
 
+        // TODO - add ActionListeners to components
+
+
+        // TODO - create formatting for the GUI
         panel.add(dataVis);
+        panel.add(logo);
     }
     /**
      * Inner LoginListner class that is for the login page
@@ -154,7 +170,6 @@ public class PennyPal extends JFrame {
              */
             // if the username and password match
 
-            char[] pass = passwordF.getPassword();
             if(e.getSource() == loginButton){
                 if(usernameTF.getText().equals("Admin") && passwordF.getText().equals("Pass")){
                     panel.removeAll();
