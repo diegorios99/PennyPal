@@ -23,7 +23,7 @@ public class PennyPal extends JFrame {
 
     JButton loginButton;
     JTextField usernameTF;
-    JTextField passwordTF;
+    JPasswordField passwordF;
     JLabel result;
 
 
@@ -87,7 +87,7 @@ public class PennyPal extends JFrame {
         JLabel usernameLabel = new JLabel("Username");
         JLabel passwordLabel = new JLabel("Password");
         usernameTF = new JTextField(10);
-        passwordTF = new JTextField(10);
+        passwordF = new JPasswordField(10);
         loginButton = new JButton("Login");
         result = new JLabel("");
 
@@ -99,7 +99,7 @@ public class PennyPal extends JFrame {
         row2.add(usernameLabel);
         row2.add(usernameTF);
         row3.add(passwordLabel);
-        row3.add(passwordTF);
+        row3.add(passwordF);
         row4.add(loginButton);
         row5.add(result);
 
@@ -152,10 +152,11 @@ public class PennyPal extends JFrame {
              * This part can be rewritten to grab username and passwords from
              * the MySQL server rather than a hardcoded username and password
              */
-
             // if the username and password match
+
+            char[] pass = passwordF.getPassword();
             if(e.getSource() == loginButton){
-                if(usernameTF.getText().equals("Admin") && passwordTF.getText().equals("Pass")){
+                if(usernameTF.getText().equals("Admin") && passwordF.getText().equals("Pass")){
                     panel.removeAll();
                     mainPanel();
                     panel.updateUI();
