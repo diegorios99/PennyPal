@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PennyPalGUI extends JFrame {
     private final int[] expenses = {450, 870}; // Expenses for previous months
@@ -124,6 +126,26 @@ public class PennyPalGUI extends JFrame {
         return max;
     }
 
+    // TODO - ButtonListener inner class
+    /**
+     * Inner ButtonListner class that implements the ActionListener to get data from the buttons
+     */
+    private class ButtonListener implements ActionListener {
+
+        /**
+         * Invoked when an action occurs.
+         *
+         * @param e the event to be processed
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            /**
+             * Using a series of if-else statements, determine what each action is for the buttons on the GUI
+             */
+
+        }// end actionPerformed
+    }// end ButtonListener
     /*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

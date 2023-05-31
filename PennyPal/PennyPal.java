@@ -122,64 +122,6 @@ public class PennyPal extends JFrame {
         panel.add(row5);
     }// end loginPanel
 
-    /**
-     * mainPanel method is going to hold the
-     * actual application with it's components
-     */
-    public void mainPanel(){
-        // Components for main page
-        JLabel dataVis = new JLabel("Data Visualization");
-        JLabel reports = new JLabel("Reports");
-        JLabel expenses = new JLabel("Expenses");
-
-        // text fields
-        JTextField addExpenseTF = new JTextField("Add Expenses");
-
-        // buttons
-        addExpenseBtn = new JButton("Add");
-        viewSpendingBtn = new JButton("View Spending");
-        changeCategoryBtn = new JButton("Change Category");
-
-        // Images
-        ImageIcon pennyPalIcon = new ImageIcon("PennyPal/images/PennyPal.png");
-        Image pennyPalImage = pennyPalIcon.getImage();
-        Image newPennyPalImage = pennyPalImage.getScaledInstance(80,80, Image.SCALE_SMOOTH);
-        pennyPalIcon = new ImageIcon(newPennyPalImage);
-        JLabel logo = new JLabel(pennyPalIcon);
-
-        // row sub panels
-        JPanel row1 = new JPanel();
-        JPanel row2 = new JPanel();
-        JPanel row3 = new JPanel();
-        JPanel row4 = new JPanel();
-        JPanel row5 = new JPanel();
-
-        // TODO - add ActionListeners to components
-        addExpenseBtn.addActionListener(new ButtonListener());
-        viewSpendingBtn.addActionListener(new ButtonListener());
-        changeCategoryBtn.addActionListener(new ButtonListener());
-        
-        // TODO - create formatting for the GUI
-        row1.add(dataVis);
-
-        row2.add(logo);
-
-        row3.add(reports);
-        row3.add(addExpenseTF);
-        row3.add(addExpenseBtn);
-
-        row4.add(expenses);
-        row4.add(viewSpendingBtn);
-        row4.add(changeCategoryBtn);
-
-
-        // add rows to panel
-        panel.add(row1);
-        panel.add(row2);
-        panel.add(row3);
-        panel.add(row4);
-        panel.add(row5);
-    }
 
 
     /**
@@ -206,15 +148,13 @@ public class PennyPal extends JFrame {
 
             if(e.getSource() == loginButton){
                 if(usernameTF.getText().equals("Admin") && passwordF.getText().equals("Pass")){
-<<<<<<< HEAD
+
                     panel.removeAll();
                     //mainPanel();
 
-                    // call the PennyPallGUI class
-                    PennyPalGUI gui = new PennyPalGUI();
 
                     panel.updateUI();
-=======
+
                    // panel.removeAll();
                     SwingUtilities.invokeLater(() -> {
                         new PennyPalGUI();
@@ -224,7 +164,7 @@ public class PennyPal extends JFrame {
                    //panel.removeAll();
                     //mainPanel();
                    // panel.updateUI();
->>>>>>> 9b55d872e8b6a913b5653f617c74123a96a61e72
+
                 }else{
                     result.setText("Invalid Information!");
                 }
@@ -232,31 +172,4 @@ public class PennyPal extends JFrame {
         }
 
     }
-
-    /**
-     * Inner ButtonListner class that implements the ActionListener to get data from the buttons
-     */
-    private class ButtonListener implements ActionListener{
-
-        /**
-         * Invoked when an action occurs.
-         *
-         * @param e the event to be processed
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            /**
-             * Using a series of if-else statements, determine what each action is for the buttons on the GUI
-             */
-            if(e.getSource() == addExpenseBtn){
-                String insert = "";
-
-            }else if(e.getSource() == viewSpendingBtn){
-
-            }else if(e.getSource() == changeCategoryBtn){
-
-            }
-        }// end actionPerformed
-    }// end ButtonListener
 }// end PennyPal
