@@ -178,6 +178,8 @@ public class PennyPal extends JFrame {
         panel.add(row4);
         panel.add(row5);
     }
+
+
     /**
      * Inner LoginListner class that is for the login page
      */
@@ -203,7 +205,11 @@ public class PennyPal extends JFrame {
             if(e.getSource() == loginButton){
                 if(usernameTF.getText().equals("Admin") && passwordF.getText().equals("Pass")){
                     panel.removeAll();
-                    mainPanel();
+                    //mainPanel();
+
+                    // call the PennyPallGUI class
+                    PennyPalGUI gui = new PennyPalGUI();
+
                     panel.updateUI();
                 }else{
                     result.setText("Invalid Information!");
@@ -230,6 +236,7 @@ public class PennyPal extends JFrame {
              * Using a series of if-else statements, determine what each action is for the buttons on the GUI
              */
             if(e.getSource() == addExpenseBtn){
+                String insert = "";
 
             }else if(e.getSource() == viewSpendingBtn){
 
@@ -238,5 +245,4 @@ public class PennyPal extends JFrame {
             }
         }// end actionPerformed
     }// end ButtonListener
-
 }// end PennyPal

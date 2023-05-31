@@ -124,9 +124,12 @@ public class PennyPalGUI extends JFrame {
         return max;
     }
 
+    /*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new PennyPalGUI();
         });
     }
+
+     */
 }
