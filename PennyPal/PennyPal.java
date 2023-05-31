@@ -1,9 +1,11 @@
 // Imports needed for the program
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 /**
  * Finance tracking app.
@@ -204,6 +206,7 @@ public class PennyPal extends JFrame {
 
             if(e.getSource() == loginButton){
                 if(usernameTF.getText().equals("Admin") && passwordF.getText().equals("Pass")){
+<<<<<<< HEAD
                     panel.removeAll();
                     //mainPanel();
 
@@ -211,6 +214,17 @@ public class PennyPal extends JFrame {
                     PennyPalGUI gui = new PennyPalGUI();
 
                     panel.updateUI();
+=======
+                   // panel.removeAll();
+                    SwingUtilities.invokeLater(() -> {
+                        new PennyPalGUI();
+                    });
+
+
+                   //panel.removeAll();
+                    //mainPanel();
+                   // panel.updateUI();
+>>>>>>> 9b55d872e8b6a913b5653f617c74123a96a61e72
                 }else{
                     result.setText("Invalid Information!");
                 }
