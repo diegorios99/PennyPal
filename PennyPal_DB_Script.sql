@@ -48,4 +48,22 @@ CREATE TABLE budgets(
 		FOREIGN KEY (user_name)
         REFERENCES users (user_name)
 );
+
+CREATE TABLE expenses(
+	accountID	CHAR(10)	NOT NULL,
+    user_name	VARCHAR(20)	NOT	NULL,
+    expense		DOUBLE(16,2)	NOT NULL,
+    expense_id 	CHAR(5)		NOT NULL,
+    t_date		DATE		NOT NULL,
+    
+    CONSTRAINT expensesPK
+		PRIMARY KEY (user_name, expense_id),
+	CONSTRAINT expensesFKusers
+		FOREIGN KEY (user_name)
+        REFERENCES users (user_name),
+	CONSTRAINT expensesFKaccounts
+		FOREIGN KEY (accountID)
+        REFERENCES accounts (accountID)
+    
+);
 SET FOREIGN_KEY_CHECKS = 1;
