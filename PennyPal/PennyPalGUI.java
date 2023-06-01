@@ -3,11 +3,14 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class PennyPalGUI extends JFrame {
     private final int[] expenses = {450, 870}; // Expenses for previous months
 
     // global fields
+
     private JPanel panel;
     private JPanel panelA;
     private JPanel panelB;
@@ -17,7 +20,6 @@ public class PennyPalGUI extends JFrame {
     private JButton addExpenseButton;
     private JButton viewButton;
     private JButton budgetButton;
-
 
     public PennyPalGUI() {
         // Set window title
@@ -69,7 +71,7 @@ public class PennyPalGUI extends JFrame {
         amountField.setPreferredSize(new Dimension(105, 30)); // Set size for text field
         addExpenseButton = new JButton("Add Expense");
         addExpenseButton.setPreferredSize(new Dimension(285, 30)); // Set size for button
-        addExpenseButton.addActionListener(new ButtonListener());
+        //addExpenseButton.addActionListener(new ButtonListener());
 
         addExpensePanel.add(amountField, BorderLayout.WEST);
         addExpensePanel.add(addExpenseButton, BorderLayout.EAST);
@@ -77,9 +79,9 @@ public class PennyPalGUI extends JFrame {
 
         viewButton = new JButton("View Expenses");
         viewButton.setBackground(Color.ORANGE);
-        viewButton.addActionListener(new ButtonListener());
+        //viewButton.addActionListener(new ButtonListener());
         budgetButton = new JButton("Set Budget");
-        budgetButton.addActionListener(new ButtonListener());
+        //budgetButton.addActionListener(new ButtonListener());
         budgetButton.setBackground(Color.ORANGE);
         panelC.add(viewButton);
         panelC.add(budgetButton);
@@ -141,33 +143,6 @@ public class PennyPalGUI extends JFrame {
         return max;
     }
 
-    // TODO - ButtonListener inner class
-    /**
-     * Inner ButtonListner class that implements the ActionListener to get data from the buttons
-     */
-    private class ButtonListener implements ActionListener {
-
-        /**
-         * Invoked when an action occurs.
-         *
-         * @param e the event to be processed
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            /**
-             * Using a series of if-else statements, determine what each action is for the buttons on the GUI
-             */
-            if(e.getSource() == addExpenseButton) {
-                // TODO - implement sql statments using the connector/j
-            }else if(e.getSource() == viewButton){
-                // TODO - implement sql statments using the connector/j
-            }else if(e.getSource() == budgetButton){
-                // TODO - implement sql statments using the connector/j
-            }
-
-        }// end actionPerformed
-    }// end ButtonListener
     /*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
