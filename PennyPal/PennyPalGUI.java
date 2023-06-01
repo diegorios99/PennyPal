@@ -7,16 +7,28 @@ import java.awt.event.ActionListener;
 public class PennyPalGUI extends JFrame {
     private final int[] expenses = {450, 870}; // Expenses for previous months
 
+    // global fields
+    private JPanel panel;
+    private JPanel panelA;
+    private JPanel panelB;
+    private JPanel panelC;
+    private JPanel addExpensePanel;
+    private JTextField amountField;
+    private JButton addExpenseButton;
+    private JButton viewButton;
+    private JButton budgetButton;
+
+
     public PennyPalGUI() {
         // Set window title
         setTitle("PennyPal Expense Tracker");
 
         // Create and add components
-        JPanel panel = new JPanel(null); // Use null layout for precise positioning
+        panel = new JPanel(null); // Use null layout for precise positioning
         panel.setBackground(Color.BLACK); // Set background color for the main panel
 
         // Panel A (Bar Chart)
-        JPanel panelA = new JPanel() {
+        panelA = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -28,7 +40,7 @@ public class PennyPalGUI extends JFrame {
         panel.add(panelA);
 
         // Panel B (Congrats message)
-        JPanel panelB = new JPanel(new BorderLayout());
+        panelB = new JPanel(new BorderLayout());
         panelB.setBackground(Color.WHITE);
         panelB.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         JLabel congratsLabel = new JLabel("Congrats! You spent 30% less than the previous month");
@@ -38,7 +50,7 @@ public class PennyPalGUI extends JFrame {
         panel.add(panelB);
 
         // Panel C (Buttons)
-        JPanel panelC = new JPanel(new GridLayout(3, 1, 0, 10)); // Vertical alignment with spacing
+        panelC = new JPanel(new GridLayout(3, 1, 0, 10)); // Vertical alignment with spacing
         panelC.setBackground(Color.WHITE);
         panelC.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         panelC.setBounds(400, 200, 400, 400); // Set position and size
@@ -51,20 +63,23 @@ public class PennyPalGUI extends JFrame {
         UIManager.put("Button.focus", Color.WHITE);
 
         // Add Expense components
-        JPanel addExpensePanel = new JPanel(new BorderLayout());
+        addExpensePanel = new JPanel(new BorderLayout());
 
-        JTextField amountField = new JTextField();
+        amountField = new JTextField();
         amountField.setPreferredSize(new Dimension(105, 30)); // Set size for text field
-        JButton addExpenseButton = new JButton("Add Expense");
+        addExpenseButton = new JButton("Add Expense");
         addExpenseButton.setPreferredSize(new Dimension(285, 30)); // Set size for button
+        addExpenseButton.addActionListener(new ButtonListener());
 
         addExpensePanel.add(amountField, BorderLayout.WEST);
         addExpensePanel.add(addExpenseButton, BorderLayout.EAST);
         panelC.add(addExpensePanel);
 
-        JButton viewButton = new JButton("View Expenses");
+        viewButton = new JButton("View Expenses");
         viewButton.setBackground(Color.ORANGE);
-        JButton budgetButton = new JButton("Set Budget");
+        viewButton.addActionListener(new ButtonListener());
+        budgetButton = new JButton("Set Budget");
+        budgetButton.addActionListener(new ButtonListener());
         budgetButton.setBackground(Color.ORANGE);
         panelC.add(viewButton);
         panelC.add(budgetButton);
@@ -143,6 +158,13 @@ public class PennyPalGUI extends JFrame {
             /**
              * Using a series of if-else statements, determine what each action is for the buttons on the GUI
              */
+            if(e.getSource() == addExpenseButton) {
+                // TODO - implement sql statments using the connector/j
+            }else if(e.getSource() == viewButton){
+                // TODO - implement sql statments using the connector/j
+            }else if(e.getSource() == budgetButton){
+                // TODO - implement sql statments using the connector/j
+            }
 
         }// end actionPerformed
     }// end ButtonListener

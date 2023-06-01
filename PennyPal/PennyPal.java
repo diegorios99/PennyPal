@@ -39,7 +39,7 @@ public class PennyPal extends JFrame {
      */
     public static void main(String[] args) {
         PennyPal pennyPal = new PennyPal();
-        //pennyPal.connect();
+        pennyPal.connect();
     }// end main
 
     /**
@@ -49,7 +49,7 @@ public class PennyPal extends JFrame {
         // information needed to gain access to the MySQL server
         String url = "jdbc:mysql://localhost:3306/pennypal";
         String userName = "root";
-        String pass = "";
+        String pass = "password";
 
         // try to connect
         try{
