@@ -1,36 +1,89 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PennyPalGUI extends JFrame {
     private final int[] expenses = {450, 870}; // Expenses for previous months
+    private JButton createCategoryButton; // Declare createCategoryButton as an instance variable
+    private String categoryName; // Category name variable
+    private int monthlyBudget; // Monthly budget variable
+    private PennyPalDatabaseConnector connector = new PennyPalDatabaseConnector();
 
-    // global fields
-
-    private JPanel panel;
-    private JPanel panelA;
-    private JPanel panelB;
-    private JPanel panelC;
-    private JPanel addExpensePanel;
-    private JTextField amountField;
-    private JButton addExpenseButton;
-    private JButton viewButton;
-    private JButton budgetButton;
-
-    public PennyPalGUI() {
+    public PennyPalGUI(List<String> categories) {
         // Set window title
         setTitle("PennyPal Expense Tracker");
 
-        // Create and add components
-        panel = new JPanel(null); // Use null layout for precise positioning
+        // Create and add components for the login GUI
+        JPanel loginPanel = createLoginPanel();
+        add(loginPanel);
+
+        // Set default close operation
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Set window size
+        setSize(800, 600);
+
+        // Set visibility
+        setVisible(true);
+    }
+
+    private JPanel createLoginPanel() {
+        // Create the login panel
+        JPanel panel = new JPanel(new GridLayout(3, 2));
+        panel.setBackground(Color.WHITE);
+
+        JLabel usernameLabel = new JLabel("Username:");
+        JTextField usernameField = new JTextField();
+        JLabel passwordLabel = new JLabel("Password:");
+        JPasswordField passwordField = new JPasswordField();
+        JButton loginButton = new JButton("Login");
+
+        panel.add(usernameLabel);
+        panel.add(usernameField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+        panel.add(new JLabel()); // Empty label for spacing
+        panel.add(loginButton);
+
+        // Add action listener to login button
+        loginButton.addActionListener(e -> {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            int userId =  connector.authenticateUser(username, password);
+            // Validate the login credentials
+            if (userId > 0) {
+                // Create an instance of the database connector class
+                connector = new PennyPalDatabaseConnector();
+
+                // Set the loggedInUserId in the connector instance
+                connector.setLoggedInUserId(userId);
+
+                // Remove the login panel and create the main panel
+                remove(panel);
+                JPanel mainPanel = createMainPanel();
+                add(mainPanel);
+
+                // Refresh the frame to reflect the changes
+                revalidate();
+                repaint();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        return panel;
+    }
+
+
+    private JPanel createMainPanel() {
+        // Create the main panel
+        JPanel panel = new JPanel(null); // Use null layout for precise positioning
         panel.setBackground(Color.BLACK); // Set background color for the main panel
 
         // Panel A (Bar Chart)
-        panelA = new JPanel() {
+        JPanel panelA = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -42,7 +95,7 @@ public class PennyPalGUI extends JFrame {
         panel.add(panelA);
 
         // Panel B (Congrats message)
-        panelB = new JPanel(new BorderLayout());
+        JPanel panelB = new JPanel(new BorderLayout());
         panelB.setBackground(Color.WHITE);
         panelB.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         JLabel congratsLabel = new JLabel("Congrats! You spent 30% less than the previous month");
@@ -52,39 +105,7 @@ public class PennyPalGUI extends JFrame {
         panel.add(panelB);
 
         // Panel C (Buttons)
-        panelC = new JPanel(new GridLayout(3, 1, 0, 10)); // Vertical alignment with spacing
-        panelC.setBackground(Color.WHITE);
-        panelC.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-        panelC.setBounds(400, 200, 400, 400); // Set position and size
-
-        // Styling for buttons
-        UIManager.put("Button.arc", 15);
-        UIManager.put("Button.foreground", Color.BLACK);
-        UIManager.put("Button.font", new Font("Arial", Font.BOLD, 14));
-        UIManager.put("Button.border", new LineBorder(Color.BLACK, 2));
-        UIManager.put("Button.focus", Color.WHITE);
-
-        // Add Expense components
-        addExpensePanel = new JPanel(new BorderLayout());
-
-        amountField = new JTextField();
-        amountField.setPreferredSize(new Dimension(105, 30)); // Set size for text field
-        addExpenseButton = new JButton("Add Expense");
-        addExpenseButton.setPreferredSize(new Dimension(285, 30)); // Set size for button
-        //addExpenseButton.addActionListener(new ButtonListener());
-
-        addExpensePanel.add(amountField, BorderLayout.WEST);
-        addExpensePanel.add(addExpenseButton, BorderLayout.EAST);
-        panelC.add(addExpensePanel);
-
-        viewButton = new JButton("View Expenses");
-        viewButton.setBackground(Color.ORANGE);
-        //viewButton.addActionListener(new ButtonListener());
-        budgetButton = new JButton("Set Budget");
-        //budgetButton.addActionListener(new ButtonListener());
-        budgetButton.setBackground(Color.ORANGE);
-        panelC.add(viewButton);
-        panelC.add(budgetButton);
+        JPanel panelC = createButtonPanel();
         panel.add(panelC);
 
         // Separator lines
@@ -104,17 +125,96 @@ public class PennyPalGUI extends JFrame {
         separator3.setForeground(Color.BLACK);
         panel.add(separator3);
 
-        // Add panel to the frame
-        add(panel);
+        return panel;
+    }
 
-        // Set default close operation
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private JPanel createButtonPanel() {
+        // Create the button panel
+        JPanel panelC = new JPanel(new GridLayout(4, 1, 0, 10)); // Vertical alignment with spacing
+        panelC.setBackground(Color.WHITE);
+        panelC.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        panelC.setBounds(400, 200, 400, 400); // Set position and size
 
-        // Set window size
-        setSize(800, 600);
+        // Styling for buttons
+        UIManager.put("Button.arc", 15);
+        UIManager.put("Button.foreground", Color.BLACK);
+        UIManager.put("Button.font", new Font("Arial", Font.BOLD, 14));
+        UIManager.put("Button.border", new LineBorder(Color.BLACK, 2));
+        UIManager.put("Button.focus", Color.WHITE);
 
-        // Set visibility
-        setVisible(true);
+        // Add Expense components
+        JPanel addExpensePanel = new JPanel(new BorderLayout());
+
+        JTextField amountField = new JTextField();
+        amountField.setPreferredSize(new Dimension(105, 30)); // Set size for text field
+        JButton addExpenseButton = new JButton("Add Expense");
+        addExpenseButton.setPreferredSize(new Dimension(285, 30)); // Set size for button
+
+        addExpensePanel.add(amountField, BorderLayout.WEST);
+        addExpensePanel.add(addExpenseButton, BorderLayout.EAST);
+        panelC.add(addExpensePanel);
+
+        createCategoryButton = new JButton("Create Category"); // Initialize createCategoryButton
+        createCategoryButton.setBackground(Color.ORANGE);
+        panelC.add(createCategoryButton);
+
+        JButton viewButton = new JButton("View Expenses");
+        viewButton.setBackground(Color.ORANGE);
+        JButton budgetButton = new JButton("Set Budget");
+        budgetButton.setBackground(Color.ORANGE);
+        panelC.add(viewButton);
+        panelC.add(budgetButton);
+
+        // Add action listener to "Create Category" button
+        createCategoryButton.addActionListener(e -> {
+            // Display input dialogs to get the category name and monthly budget
+            String categoryName = JOptionPane.showInputDialog(this, "Enter category name:");
+            String budgetString = JOptionPane.showInputDialog(this, "Enter monthly budget:");
+
+            // Check if a category name and budget were entered
+            if (categoryName != null && !categoryName.isEmpty() && budgetString != null && !budgetString.isEmpty()) {
+                try {
+                    int monthlyBudget = Integer.parseInt(budgetString);
+
+                    connector.insertCategory(categoryName, monthlyBudget);
+
+                    // ...
+                } catch (NumberFormatException ex) {
+                    // ...
+                }
+            }
+        });
+
+        addExpenseButton.addActionListener(e -> {
+            // Get the expense amount from the amountField
+            String expenseAmount = amountField.getText();
+
+            // Check if the expense amount is not empty
+            if (!expenseAmount.isEmpty()) {
+                // Retrieve the existing categories from the database
+                List<String> existingCategories = connector.getCategories();
+
+                // Display input dialog to get the selected category
+                Object selectedCategory = JOptionPane.showInputDialog(
+                        this, "Select a category:", "Choose Category",
+                        JOptionPane.QUESTION_MESSAGE, null, existingCategories.toArray(), existingCategories.get(0));
+
+                // Check if a category was selected
+                if (selectedCategory != null) {
+                    String selectedCategoryName = selectedCategory.toString();
+
+                    // Perform any additional processing with the selected category and expense amount
+                    // For now, let's just print them to the console
+                    System.out.println("Expense amount: " + expenseAmount);
+                    System.out.println("Selected category: " + selectedCategoryName);
+
+                    // Add the expense to the selected category in the database
+                    connector.insertExpense(selectedCategoryName, Integer.parseInt(expenseAmount));
+                }
+            }
+        });
+
+        return panelC;
     }
 
     private void drawBarChart(Graphics g) {
@@ -143,12 +243,10 @@ public class PennyPalGUI extends JFrame {
         return max;
     }
 
-    /*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new PennyPalGUI();
+            List<String> categories = new ArrayList<>(); // Populate this list with existing categories
+            new PennyPalGUI(categories);
         });
     }
-
-     */
 }
