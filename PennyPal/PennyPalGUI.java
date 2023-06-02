@@ -4,6 +4,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 public class PennyPalGUI extends JFrame {
     private final int[] expenses = {450, 870}; // Expenses for previous months
     private JButton createCategoryButton; // Declare createCategoryButton as an instance variable
@@ -29,6 +32,11 @@ public class PennyPalGUI extends JFrame {
         setVisible(true);
     }
 
+
+    /**
+     *
+     * @return
+     */
     private JPanel createLoginPanel() {
         // Create the login panel
         JPanel panel = new JPanel(new GridLayout(3, 2));
@@ -77,6 +85,10 @@ public class PennyPalGUI extends JFrame {
     }
 
 
+    /**
+     *
+      * @return
+     */
     private JPanel createMainPanel() {
         // Create the main panel
         JPanel panel = new JPanel(null); // Use null layout for precise positioning
@@ -128,6 +140,11 @@ public class PennyPalGUI extends JFrame {
         return panel;
     }
 
+
+    /**
+     *
+     * @return
+     */
     private JPanel createButtonPanel() {
         // Create the button panel
         JPanel panelC = new JPanel(new GridLayout(4, 1, 0, 10)); // Vertical alignment with spacing
@@ -184,6 +201,8 @@ public class PennyPalGUI extends JFrame {
                 }
             }
         });
+
+
 
         addExpenseButton.addActionListener(e -> {
             // Get the expense amount from the amountField
