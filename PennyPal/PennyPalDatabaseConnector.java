@@ -12,7 +12,7 @@ public class PennyPalDatabaseConnector {
     public PennyPalDatabaseConnector() {
         this.url = "jdbc:mysql://localhost:3306/pennypal";
         this.username = "root";
-        this.password = "Temporary";
+        this.password = "password";
         try {
             this.connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException ex) {
