@@ -39,23 +39,60 @@ public class PennyPalGUI extends JFrame {
 
     private JPanel createLoginPanel() {
         // Create the login panel
-        JPanel panel = new JPanel(new GridLayout(3, 2));
+        JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.WHITE);
 
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = new Insets(10, 10, 10, 10);
+
+        // Create and add the logo
+        ImageIcon pennyPalIcon = new ImageIcon("PennyPal/images/PennyPal.png");
+        Image pennyPalImage = pennyPalIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        JLabel logoLabel = new JLabel(new ImageIcon(pennyPalImage));
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        panel.add(logoLabel, constraints);
+
+        // Create and add the username label and field
         JLabel usernameLabel = new JLabel("Username:");
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        panel.add(usernameLabel, constraints);
+
         JTextField usernameField = new JTextField();
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        panel.add(usernameField, constraints);
+
+        // Create and add the password label and field
         JLabel passwordLabel = new JLabel("Password:");
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        panel.add(passwordLabel, constraints);
+
         JPasswordField passwordField = new JPasswordField();
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        panel.add(passwordField, constraints);
+
+        // Create and add the login button
         JButton loginButton = new JButton("Login");
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 2;
+        panel.add(loginButton, constraints);
 
-        panel.add(usernameLabel);
-        panel.add(usernameField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
-        panel.add(new JLabel()); // Empty label for spacing
-        panel.add(loginButton);
+        // Create and add the create account button
+        JButton createAccountButton = new JButton("Create Account");
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 2;
+        panel.add(createAccountButton, constraints);
 
-        // Add action listener to login button
+        // Add action listeners
         loginButton.addActionListener(e -> {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
@@ -81,15 +118,12 @@ public class PennyPalGUI extends JFrame {
             }
         });
 
-        // Add a button for creating an account
-        JButton createAccountButton = new JButton("Create Account");
         createAccountButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Open the create account dialog
                 openCreateAccountDialog();
             }
         });
-        panel.add(createAccountButton);
 
         return panel;
     }
